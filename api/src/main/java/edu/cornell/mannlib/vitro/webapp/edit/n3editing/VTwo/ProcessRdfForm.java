@@ -203,26 +203,29 @@ public class ProcessRdfForm {
          */
         Map<String, List<Literal>> literalsFromForm = submission.getLiteralsFromForm();
     	Set<String> keys = literalsFromForm.keySet();
-    	for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
-			String aKey = (String) iterator.next();
+        for (String aKey : keys) {
 			List<Literal> literalFromForm = literalsFromForm.get(aKey);
 			List<Literal> newLiteralFromForm = new ArrayList<>();
-			for (Iterator iterator2 = literalFromForm.iterator(); iterator2.hasNext();) {
-				Literal aLiteral = (Literal) iterator2.next();
-				String aLiteratDT = aLiteral.getDatatype().getURI();
-				Literal newLiteral= null;
-				String aText = aLiteral.getLexicalForm();
-				/*
-				 * do it only if aLiteral are xstring datatype
-				 */
+            for (Literal aLiteral : literalFromForm) {
+                if (aLiteral != null) {
+                    String aLiteratDT = aLiteral.getDatatype().getURI();
+                    Literal newLiteral = null;
+                    String aText = aLiteral.getLexicalForm();
+                    /*
+                     * do it only if aLiteral are xstring datatype
+                     */
 
-				if ( XSD.xstring.getURI().equals(aLiteratDT) || RDF.dtLangString.getURI().equals(aLiteratDT) ) {
-					String lang =vreq.getLocale().getLanguage() + "-"+vreq.getLocale().getCountry();
-					newLiteral = ResourceFactory.createLangLiteral(aText, lang);
-				} else {
-					newLiteral = ResourceFactory.createTypedLiteral(aText, aLiteral.getDatatype());
-				}
-				newLiteralFromForm.add(newLiteral);
+                    if (XSD.xstring.getURI().equals(aLiteratDT) || RDF.dtLangString.getURI().equals(aLiteratDT)) {
+                        String lang = vreq.getLocale().getLanguage();
+                        if (!vreq.getLocale().getCountry().isEmpty()) {
+                            lang += "-" + vreq.getLocale().getCountry();
+                        }
+                        newLiteral = ResourceFactory.createLangLiteral(aText, lang);
+                    } else {
+                        newLiteral = ResourceFactory.createTypedLiteral(aText, aLiteral.getDatatype());
+                    }
+                    newLiteralFromForm.add(newLiteral);
+                }
 			}
 			literalsFromForm.replace(aKey, newLiteralFromForm);
 		}
@@ -304,11 +307,14 @@ public class ProcessRdfForm {
         List<Model> retracts = new ArrayList<Model>();
         if( requiredDels != null && optionalDels != null ){
             String lingCxt=null;
-    		//UQAM Taking into account the linguistic context in retract
-    		try {
-    				lingCxt	= vreq.getLocale().getLanguage() + "-"+vreq.getLocale().getCountry();
-    		} catch (Exception e) {
-    		}
+            //UQAM Taking into account the linguistic context in retract
+            try {
+                lingCxt = vreq.getLocale().getLanguage();
+                if (!vreq.getLocale().getCountry().isEmpty()) {
+                    lingCxt += "-" + vreq.getLocale().getCountry();
+                }
+            } catch (Exception e) {
+            }
             retracts.addAll( parseN3ToRDF(requiredDels, REQUIRED, lingCxt) );
             retracts.addAll( parseN3ToRDF(optionalDels, OPTIONAL, lingCxt) );
         }
