@@ -14,6 +14,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.datatypes.xsd.impl.RDFLangString;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.Literal;
 import org.apache.jena.rdf.model.Model;
@@ -348,10 +349,13 @@ public class ProcessRdfForm {
 					RDFNode obj = stmt.getObject();
 					if (obj.isLiteral()) {
 						Literal lit = obj.asLiteral();
-						String lang = lit.getLanguage();
-						if (! linguisticContext.equalsIgnoreCase(lang)) {
-							//UQAM Remove if linguisticContext != lang of the Literal
-							model.remove(subj, pred, obj);
+						if (lit.getDatatype().getClass() == RDFLangString.class) {
+							String lang = lit.getLanguage();
+							if (!linguisticContext.equalsIgnoreCase(lang)) {
+								// UQAM Remove if linguisticContext != lang of
+								// the Literal
+								model.remove(subj, pred, obj);
+							}
 						}
 					}
 
