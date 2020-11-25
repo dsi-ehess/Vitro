@@ -349,7 +349,7 @@ public class ProcessRdfForm {
 					if (obj.isLiteral()) {
 						Literal lit = obj.asLiteral();
 						String lang = lit.getLanguage();
-						if (! linguisticContext.equals(lang)) {
+						if (! linguisticContext.equalsIgnoreCase(lang)) {
 							//UQAM Remove if linguisticContext != lang of the Literal
 							model.remove(subj, pred, obj);
 						}
