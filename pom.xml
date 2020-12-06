@@ -1,19 +1,13 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.vivoweb</groupId>
     <artifactId>vitro-project</artifactId>
     <version>1.11.2-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>Vitro</name>
     <description>Vitro semantic web application project</description>
     <url>http://vivoweb.org/</url>
-
     <licenses>
         <license>
             <name>BSD 3-Clause License</name>
@@ -21,7 +15,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
     <developers>
         <developer>
             <name>Graham Triggs</name>
@@ -42,19 +35,15 @@
             <organizationUrl>https://github.com/fereira</organizationUrl>
         </developer>
     </developers>
-
-    <!--
-       The SCM repository location is used by Continuum to update against
-       when changes have occurred.  This spawns a new build cycle and releases
-       snapshots into the snapshot repository below.
-    -->
+    <!-- The SCM repository location is used by Continuum to update against 
+        when changes have occurred. This spawns a new build cycle and releases snapshots 
+        into the snapshot repository below. -->
     <scm>
         <connection>scm:git:git@github.com:vivo-project/Vitro.git</connection>
         <developerConnection>scm:git:git@github.com:vivo-project/Vitro.git</developerConnection>
         <url>git@github.com:vivo-project/Vitro.git</url>
         <tag>HEAD</tag>
     </scm>
-
     <properties>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>
@@ -62,14 +51,12 @@
         <stagingBase>/</stagingBase>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <modules>
         <module>api</module>
         <module>dependencies</module>
         <module>webapp</module>
         <module>home</module>
     </modules>
-
     <profiles>
         <profile>
             <id>installer</id>
@@ -246,7 +233,6 @@
             </build>
         </profile>
     </profiles>
-
     <build>
         <plugins>
             <plugin>
@@ -287,8 +273,8 @@
                     <stagingDirectory>${stagingBase}/vitro/${project.version}</stagingDirectory>
                 </configuration>
             </plugin>
-
-            <!-- Used to validate all code style rules in source code using Checkstyle -->
+            <!-- Used to validate all code style rules in source code using 
+                Checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -296,7 +282,8 @@
                 <executions>
                     <execution>
                         <id>verify-style</id>
-                        <!-- Bind to verify so it runs after package & unit tests, but before install -->
+                        <!-- Bind to verify so it runs after package & unit 
+                            tests, but before install -->
                         <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
@@ -304,11 +291,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <configLocation>
-                      duraspace-checkstyle/checkstyle.xml
+                    <configLocation> duraspace-checkstyle/checkstyle.xml 
                     </configLocation>
                     <suppressionsLocation>
-                      vitro-checkstyle/checkstyle-suppressions.xml
+                        vitro-checkstyle/checkstyle-suppressions.xml 
                     </suppressionsLocation>
                     <encoding>UTF-8</encoding>
                     <consoleOutput>true</consoleOutput>
@@ -403,7 +389,6 @@
             </plugins>
         </pluginManagement>
     </build>
-
     <reporting>
         <plugins>
             <plugin>
@@ -428,9 +413,11 @@
                             <report>test-javadoc</report>
                         </reports>
                     </reportSet>
-                    <reportSet><!-- aggregate reportSet, to define in poms having modules -->
+                    <reportSet><!-- aggregate reportSet, to define in poms 
+                            having modules -->
                         <id>aggregate</id>
-                        <inherited>false</inherited><!-- don't run aggregate in child modules -->
+                        <inherited>false</inherited><!-- don't run aggregate 
+                            in child modules -->
                         <reports>
                             <report>aggregate</report>
                         </reports>
@@ -453,7 +440,6 @@
             </plugin>
         </plugins>
     </reporting>
-
     <distributionManagement>
         <site>
             <id>vivo-project</id>
@@ -468,7 +454,6 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
     <repositories>
         <repository>
             <id>sonatype-nexus-snapshots</id>
@@ -482,5 +467,4 @@
             </snapshots>
         </repository>
     </repositories>
-
 </project>
